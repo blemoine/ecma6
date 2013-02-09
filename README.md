@@ -1,2 +1,2 @@
-ecma6
+Ecmascript 6 - preview
 =====
