@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ecmascript 6 - Preview</title>
+    <title>ECMAScript 6 - Preview</title>
 
     <meta charset="utf-8">
 
@@ -15,9 +15,80 @@
 <body>
 <div id="impress">
     <div id="e11" class="step slide section" data-x="0" data-y="0" data-z="0">
-        <div class="header"></div>
-        <div class="footer"></div>
+          <h1>ECMAScript 6 - Le futur de javascript</h1>
+
+          <div class="js-logo" title="logo moche"><span>JS</span></div>
     </div>
+
+    <div id="e12" class="step slide section" data-x="1500" data-y="0" data-z="0">
+        <h1>ECMAScript - C'est quoi ?</h1>
+        <br />
+        <ul class="bulletPoint">
+            <li>Langage de programmation standardisé par Ecma International (ECMA-262)</li>
+            <li>Javascript est un dialecte de ECMAScript (au même titre qu'ActionScript, par ex.)</li>
+            <li>La plupart des navigateurs modernes implementent un dérivé d'ECMAScript 5</li>
+        </ul>
+    </div>
+
+    <div id="e21" class="step slide section" data-x="0" data-y="1500" data-z="0">
+        <h1>Les fonctionnalités qui ont une forte probabilité d'arriver</h1>
+        <br />
+        <ul class="bulletPoint">
+            <li>Spécification non définitive</li>
+            <li>Pas de dates annoncées</li>
+        </ul>
+    </div>
+
+    <div id="e22" class="step slide section" data-x="1500" data-y="1500" data-z="0">
+        <h1>Sucre syntaxique - Les fonctions</h1>
+        <br />
+        <p>2 propositions&nbsp;:</p>
+        <pre class="brush: js">
+var adder = function(a,b) { return a + b; };
+
+//Aurait pu s'écrire
+var adder = {|a, b| a + b};
+
+//Mais s'écrira plus probablement
+var adder = (a, b) => a + b
+        </pre>
+    </div>
+
+    <div id="e23" class="step slide section" data-x="3000" data-y="1500" data-z="0">
+        <h1>Sucre syntaxique - Assignement destructuré, valeur par défaut</h1>
+        <br />
+        <pre class="brush: js">
+            var a = 5;
+            var b = 6;
+
+            var [c, d] = [a, b];
+            //la variable c vaut maintenant 5,
+            //et la variable d vaut 6
+
+            var add = function(x = 0, y = 0) { return x + y; };
+            console.log(add(2)); //Affiche 2
+            console.log(add()); // Affiche 0
+        </pre>
+    </div>
+
+    <div id="e24" class="step slide section" data-x="4500" data-y="1500" data-z="0">
+        <h1>Scope</h1>
+        <br />
+        <p><i>Scoping</i> au block</p>
+        <pre class="brush: js">
+const a = 2;
+
+if (a == 2) {
+   let b = 3;
+   console.log(b); // Affichera 3
+}
+
+console.log(b); //Affichera undefined
+a = 5; //Lance une exception
+        </pre>
+    </div>
+
+    
 
     <div id="overview" class="step" data-x="3000" data-y="4000" data-scale="13">
     </div>
@@ -30,10 +101,10 @@
 
         var totalNbOfSlides = $('div.slide').length;
         $('div.slide').each(function (index) {
-            var $header = $('.header', this);
+            var $slide = $(this);
             var numOfSlide = index + 1;
-            $header.html('<span class="title">Ecmascript 6</span><span class="pageNumber">' + numOfSlide + '/' + totalNbOfSlides + '</span>');
-            $('.footer', this).html('<p>Beno&icirc;t Lemoine </p> <img src="logo_done_right-large-transparent.png" alt="xebia" />');
+            $slide.prepend('<div class="header"><span class="title">ECMAScript 6</span><span class="pageNumber">' + numOfSlide + '/' + totalNbOfSlides + '</span></div><br />');
+            $slide.append('<div class="footer"><p>Beno&icirc;t Lemoine </p> <img src="logo_done_right-large-transparent.png" alt="xebia" /></div>');
         });
 
         SyntaxHighlighter.defaults['gutter'] = false;

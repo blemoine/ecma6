@@ -185,8 +185,12 @@ code {
     
 }
 
-.mainLi code {
+.bulletPoint li code {
     padding: 0 0 0 0;
+}
+
+.bulletPoint li {
+    list-style: disc;
 }
 
 .petit {
@@ -204,9 +208,7 @@ input {
     text-align: center;
 }
 
-.mainLi {
-    list-style: disc;
-}
+
 
 .demo-border-radius {
     -webkit-border-radius: 10px;
@@ -384,7 +386,20 @@ margin-top:50px;
     height: 500px;
 }
 
-.mytripset-link{
-    display: inline-block;
-    text-align: center;
+.js-logo {
+    background-color:#EE0;
+    color:black;
+    height:260px;
+    width: 260px;
+    position: relative;
+    margin: auto;
+    margin-top:160px;
+}
+
+.js-logo span {
+    font-weight: bolder;
+    position:absolute;
+    font-size:70px;
+    right:20px;
+    bottom:30px;
 }
