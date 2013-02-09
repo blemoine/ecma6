@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ecmascript 6 - Preview</title>
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="pp.css"/>
+    <link rel="stylesheet" href="shCore.css"/>
+    <link rel="stylesheet" href="shThemeDefault.css"/>
+    <script src="jquery.min.js"></script>
+    <script src="shCore.js"></script>
+    <script src="shBrushJScript.js"></script>
+</head>
+<body>
+<div id="impress">
+    <div id="e11" class="step slide section" data-x="0" data-y="0" data-z="0">
+        <div class="header"></div>
+        <div class="footer"></div>
+    </div>
+
+    <div id="overview" class="step" data-x="3000" data-y="4000" data-scale="13">
+    </div>
+</div>
+</body>
+<script src="impress.js"></script>
+<script>
+    $(function () {
+        impress().init();
+
+        var totalNbOfSlides = $('div.slide').length;
+        $('div.slide').each(function (index) {
+            var $header = $('.header', this);
+            var numOfSlide = index + 1;
+            $header.html('<span class="title">Ecmascript 6</span><span class="pageNumber">' + numOfSlide + '/' + totalNbOfSlides + '</span>');
+            $('.footer', this).html('<p>Beno&icirc;t Lemoine </p> <img src="logo_done_right-large-transparent.png" alt="xebia" />');
+        });
+
+        SyntaxHighlighter.defaults['gutter'] = false;
+        SyntaxHighlighter.all();
+    });
+</script>
+</html>
