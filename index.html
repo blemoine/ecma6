@@ -14,13 +14,13 @@
 </head>
 <body>
 <div id="impress">
-    <div id="e11" class="step slide section" data-x="0" data-y="0" data-z="0">
+    <div id="e11" class="step slide section" data-x="0" data-y="0" >
           <h1>ECMAScript 6 - Le futur de javascript</h1>
 
           <div class="js-logo" title="logo moche"><span>JS</span></div>
     </div>
 
-    <div id="e12" class="step slide section" data-x="1500" data-y="0" data-z="0">
+    <div id="e12" class="step slide section" data-x="1500" data-y="0" >
         <h1>ECMAScript - C'est quoi ?</h1>
         <br />
         <ul class="bulletPoint">
@@ -30,7 +30,7 @@
         </ul>
     </div>
 
-    <div id="e21" class="step slide section" data-x="0" data-y="1500" data-z="0">
+    <div id="e21" class="step slide section" data-x="0" data-y="1500" >
         <h1>Les fonctionnalités qui ont une forte probabilité d'arriver</h1>
         <br />
         <ul class="bulletPoint">
@@ -39,7 +39,7 @@
         </ul>
     </div>
 
-    <div id="e22" class="step slide section" data-x="1500" data-y="1500" data-z="0">
+    <div id="e22" class="step slide section" data-x="1500" data-y="1500" >
         <h1>Syntaxe des fonctions</h1>
         <br />
         <p>2 propositions&nbsp;:</p>
@@ -54,7 +54,7 @@ var adder = (a, b) => a + b
         </pre>
     </div>
 
-    <div id="e23" class="step slide section" data-x="3000" data-y="1500" data-z="0">
+    <div id="e23" class="step slide section" data-x="3000" data-y="1500" >
         <h1>Assignement destructuré, valeur par défaut</h1>
         <br />
         <pre class="brush: js">
@@ -71,7 +71,7 @@ var adder = (a, b) => a + b
         </pre>
     </div>
 
-    <div id="e24" class="step slide section" data-x="4500" data-y="1500" data-z="0">
+    <div id="e24" class="step slide section" data-x="4500" data-y="1500" >
         <h1>Scope</h1>
         <br />
         <p><i>Scoping</i> au block</p>
@@ -88,7 +88,7 @@ a = 5; //Lance une exception
         </pre>
     </div>
 
-    <div id="e25" class="step slide section" data-x="6000" data-y="1500" data-z="0">
+    <div id="e25" class="step slide section" data-x="6000" data-y="1500" >
         <h1>Rest</h1>
         <br />
         <pre class="brush: js">
@@ -104,21 +104,34 @@ console.log(adder(1,2,3,4)); // affiche 10
         </pre>
     </div>
 
-    <div id="e26" class="step slide section" data-x="7500" data-y="1500" data-z="0">
+    <div id="e26" class="step slide section" data-x="7500" data-y="1500" >
         <h1>Spread</h1>
         <br />
         <pre class="brush: js">
-function adder(numbers) {
-   let result = 0;
-   for(var i in numbers) {
-       result += numbers[i];
-   }
-   return result;
+function adder(a, b, c, d) {
+   return a + b + c + d;
 }
 console.log(adder(...[1,2,3,4])); // affiche 10
         </pre>
     </div>
 
+    <div id="e27" class="step slide section" data-x="9000" data-y="1500" >
+        <h1>Proxy</h1>
+        <br />
+        <pre class="brush: js">
+var point = {x:1, y:4};
+var proxifiedObject = Proxy(point, {
+     get: function(target, name, receiver) {
+            console.log(name+" is called");
+            return target[name];
+     }
+});
+
+var x = proxifiedObject.x; // va écrire dans la console "x is called", et x vaudra 1
+        </pre>
+    </div>
+
+    
 
     <div id="overview" class="step" data-x="3000" data-y="4000" data-scale="13">
     </div>
@@ -129,8 +142,9 @@ console.log(adder(...[1,2,3,4])); // affiche 10
     $(function () {
         impress().init();
 
-        var totalNbOfSlides = $('div.slide').length;
-        $('div.slide').each(function (index) {
+        var $slides = $('div.slide');
+        var totalNbOfSlides = $slides.length;
+        $slides.each(function (index) {
             var $slide = $(this);
             var numOfSlide = index + 1;
             $slide.prepend('<div class="header"><span class="title">ECMAScript 6</span><span class="pageNumber">' + numOfSlide + '/' + totalNbOfSlides + '</span></div><br />');
