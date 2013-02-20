@@ -23,9 +23,10 @@
 	{
 		var keywords =	'break case catch continue ' +
 						'default delete do else false  ' +
-						'for function if in instanceof ' +
+						'for function if in of instanceof ' +
 						'new null return super switch ' +
-						'this throw true try typeof var while with'
+						'this throw true try typeof var let while with '+
+                        'module export const class'
 						;
 
 		var r = SyntaxHighlighter.regexLib;

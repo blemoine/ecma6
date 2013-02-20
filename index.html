@@ -94,7 +94,8 @@ a = 5; //Lance une exception
         <pre class="brush: js">
 function adder(...numbers) {
    let result = 0;
-   //numbers est un tableau, contrairement à arguments
+   //numbers est un tableau,
+   //  contrairement à arguments
    for(var i in numbers) {
        result += numbers[i];
    }
@@ -127,13 +128,337 @@ var proxifiedObject = Proxy(point, {
      }
 });
 
-var x = proxifiedObject.x; // va écrire dans la console "x is called", et x vaudra 1
+// va écrire dans la console "x is called",
+//   et x vaudra 1
+var x = proxifiedObject.x;
         </pre>
     </div>
 
-    
+    <div id="e28" class="step slide section" data-x="10500" data-y="1500" >
+        <h1>Map</h1>
+        <br />
+        <pre class="brush: js">
+var map = Map([["janvier",31],["fevrier",28]]);
 
-    <div id="overview" class="step" data-x="3000" data-y="4000" data-scale="13">
+map.set("mars", 31);
+console.log(map.get("janvier")); //renvoie 31
+
+map.delete("fevrier");
+
+for (let [key,val] of map) {}
+        </pre>
+    </div>
+
+    <div id="e29" class="step slide section" data-x="12000" data-y="1500" >
+        <h1>Set</h1>
+        <br />
+        <pre class="brush: js">
+var set = Set(["un", "trois", "un"]);
+console.log(set.size()); // renvoie 2
+
+console.log(set.add("deux"));
+console.log(set.has("deux")); //renvoie true
+
+for (let elem of set) {
+     console.log(element);
+}
+
+        </pre>
+    </div>
+
+    <div id="e30" class="step slide section" data-x="13500" data-y="1500" >
+        <h1>Itération : For of</h1>
+        <br />
+        <pre class="brush: js">
+            //Parcours les valeurs plutôt que les index
+            for (word of ["one", "two", "three"]) {
+               console.log(word);
+            }
+
+            //Renvoit un tableau des carrés de la liste
+            [ square(x) for (x of [1,2,3,4,5]) ]
+
+        </pre>
+    </div>
+
+    <div id="e31" class="step slide section" data-x="15000" data-y="1500" >
+        <h1>Itération : For of - iterator</h1>
+        <div class="mini">
+        <pre class="brush: js">
+//Un objet est itérable s'il a une méthode iterator
+function MyCollection() { this.elements = []; }
+MyCollection.prototype = {
+    add: function(x) { this.elements.push(x) },
+    iterator: function() {
+        return {
+          elements: this.elements,
+          index: 0,
+          next: function() {
+            if (this.index >= this.elements.length)
+              throw StopIteration;
+            return this.elements[this.index++]
+          }
+        }
+    }
+};
+
+        </pre>
+        </div>
+    </div>
+
+    <div id="e32" class="step slide section" data-x="16500" data-y="1500" >
+        <h1>Itération - generateur - yield</h1>
+        <br />
+        <pre class="brush: js">
+            function* fibonacci() {
+                let [prev, curr] = [0, 1];
+                for (;;) {
+                    [prev, curr] = [curr, prev + curr];
+                    yield curr;
+                }
+            }
+
+            for (n of fibonacci()) {
+                if (n > 1000)
+                    break;
+                print(n);
+            }
+        </pre>
+
+    </div>
+
+    <div id="e33" class="step slide section" data-x="18000" data-y="1500" >
+        <h1>Modules</h1>
+        <br />
+        <div class="mini">
+        <pre class="brush: js">
+module 'math' {
+    export function sum(x, y) {
+        return x + y;
+    }
+    export var pi = 3.141593;
+}
+
+//Dans un autre fichier
+import {sum, pi} from 'math';
+alert("2π = " + sum(pi, pi));
+
+// ou
+import 'math' as M;
+alert("2π = " + M.sum(M.pi, M.pi));
+
+// import à distance
+import 'http://json.org/modules/json2.js' as JSON;
+        </pre>
+        </div>
+    </div>
+
+    <div id="e34" class="step slide section" data-x="19500" data-y="1500" >
+        <h1>Création d'objet litéraux</h1>
+        <br />
+        <pre class="brush: js">
+var obj = theProtoObj <| {
+          konst:= f(), //writable, enumerable=false
+          handler: defaultHandler,
+          get super set name(v) {throw Error("some message")}
+          source() {throw Error("another message")}
+          toString() {return "d "+super.toString()}
+];
+
+ var enhancedArrayProto = Array.prototype <| {
+      do (func) {return this.foreach(func)},
+      search (key) {return this.indexOf(key) >= 0}
+  };
+  var myArray = enhancedArrayProto <| [0,1,2,3,4,5];
+        </pre>
+    </div>
+
+    <div id="e35" class="step slide section" data-x="21000" data-y="1500" >
+        <h1>Maximally minimal class</h1>
+        <br />
+        <div class="mini">
+        <pre class="brush: js">
+const pHealth = Name.create();
+
+class Monster {
+  constructor(name, health) {
+    this.name = name;
+    this[pHealth] = health;
+  }
+
+  attack(target) {
+    log('The monster attacks ' + target);
+  }
+
+  get isAlive() {
+    return this[pHealth] > 0;
+  }
+
+  set health(value) {
+    this[pHealth] = value
+  }
+}
+
+        </pre>
+        </div>
+    </div>
+
+    <div id="e36" class="step slide section" data-x="22500" data-y="1500" >
+        <h1>Diverses méthodes supplémentaire</h1>
+        <br />
+        <ul class="bulletPoint">
+            <li>String.startsWith</li>
+            <li>String.endWith</li>
+            <li>String.contains</li>
+            <li>String.toArray</li>
+            <li>Number.isNaN</li>
+            <li>Number.isFinite</li>
+            <li>Number.isInteger</li>
+            <li>Number.toInteger</li>
+        </ul>
+    </div>
+
+    <div id="e37" class="step slide section" data-x="24000" data-y="1500" >
+        <h1>Quasi-Literal</h1>
+        <br />
+        <p>Appel de fonction avec une chaîne pouvant être interpolée</p>
+        <pre class="brush: js">
+            msg`Welcome to ${siteName}`
+
+            $`#element .${maClasse}`
+        </pre>
+    </div>
+
+    <div id="e41" class="step slide section" data-x="0" data-y="3000">
+        <h1>Ou utiliser tester certaines fonctionnalités</h1>
+        <br />
+        <ul class="bulletPoint">
+            <li>Node, avec le flag --harmony</li>
+            <li>Firefox</li>
+            <li>Chrome, avec le flag "experimental javascript features"</li>
+        </ul>
+    </div>
+
+    <div id="e42" class="step slide section" data-x="1500" data-y="3000">
+        <h1>Ce qui fonctionne</h1>
+        <br />
+        <table class="browsers-features">
+            <thead>
+                <tr>
+                    <th>Fonctionnalité</th>
+                    <th>Firefox</th>
+                    <th>Chrome</th>
+                    <th>Node</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th> => </th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>const</th>
+                    <td class="ok">OK</td>
+                    <td class="ok">OK</td>
+                    <td class="ok">OK</td>
+                </tr>
+                <tr>
+                    <th>let</th>
+                    <td class="ok">OK</td>
+                    <td class="ok">OK</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>default parameters</th>
+                    <td class="ok">OK</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>rest parameters</th>
+                    <td class="ok">OK</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>spread notation</th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>Proxy</th>
+                    <td>&nbsp;</td>
+                    <td class="ok">OK</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>Map</th>
+                    <td class="ok">OK</td>
+                    <td>&nbsp;</td>
+                    <td class="ok">OK</td>
+                </tr>
+                <tr>
+                    <th>Set</th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>for of</th>
+                    <td class="ok">OK</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>yield</th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>Module</th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>Classes</th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="e43" class="step slide section" data-x="3000" data-y="3000">
+        <h1>Side Note - CoffeeScript</h1>
+        <br />
+        <p>CoffeeScript supporte un certains nombres de ces fonctionnalités</p>
+        <ul class="bulletPoint">
+            <li>Syntaxe des fonctions avec <code>-></code> </li>
+            <li>Paramètres par défaut</li>
+            <li>Rest et spread parameters</li>
+            <li>For of ; for comprehension</li>
+            <li>Classes</li>
+        </ul>
+        <p>En fait, Coffeescript a inspiré une partie des évolutions d'EcmaScript 6</p>
+    </div>
+
+    <div id="e44" class="step slide section" data-x="4500" data-y="3000">
+        <h1>Ressources</h1>
+        <br />
+        <ul class="bulletPoint">
+            <li>Wiki harmony : <a href="http://wiki.ecmascript.org/doku.php?id=harmony:proposals">http://wiki.ecmascript.org/doku.php?id=harmony:proposals</a></li>
+            <li>Table de compatibilité : <a href="http://kangax.github.com/es5-compat-table/es6/">http://kangax.github.com/es5-compat-table/es6/</a></li>
+        </ul>
+
+    </div>
+
+    <div id="overview" class="step" data-x="8000" data-y="4000" data-scale="13">
     </div>
 </div>
 </body>

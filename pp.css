@@ -403,3 +403,29 @@ margin-top:50px;
     right:20px;
     bottom:30px;
 }
+
+.mini {
+    font-size:80%;
+}
+
+.browsers-features {
+    width:100%;
+}
+
+.browsers-features th,.browsers-features td{
+    border:1px solid black;
+}
+
+.browsers-features td{
+    background-color:#cc0022;
+    color:white;
+    text-align: center;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
+    padding-top:1px;
+    padding-bottom:1px;
+    box-shadow: inset 0 0 40px rgba(48,27,58,0.3);
+}
+.browsers-features td.ok{
+    background-color:#43C160;
+
+}
