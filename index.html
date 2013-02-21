@@ -42,10 +42,12 @@
     <div id="e22" class="step slide section" data-x="1500" data-y="1500" >
         <h1>Syntaxe des fonctions</h1>
         <br />
-        <p>2 propositions&nbsp;:</p>
+        <p>Pour la fonction suivante&nbsp;:</p>
         <pre class="brush: js">
 var adder = function(a,b) { return a + b; };
-
+        </pre>
+        <p>2 propositions&nbsp; de nouvelle syntaxe&nbsp;:</p>
+        <pre class="brush: js">
 //Aurait pu s'écrire
 var adder = {|a, b| a + b};
 
@@ -62,12 +64,28 @@ var adder = (a, b) => a + b
             var b = 6;
 
             var [c, d] = [a, b];
-            //la variable c vaut maintenant 5,
-            //et la variable d vaut 6
+            // la variable c vaut maintenant 5,
+            // et la variable d vaut 6
 
+            var getCoord = function() { return {x:1, y:2}; };
+
+            var {x:e,y:f} = getCoord();
+            // e vaut maintenant 1, f vaut 2
+
+        </pre>
+    </div>
+
+    <div id="e23b" class="step slide section" data-x="3000" data-y="-1500">
+        <h1>Valeur par défaut</h1>
+        <br />
+        <pre class="brush: js">
             var add = function(x = 0, y = 0) { return x + y; };
-            console.log(add(2)); //Affiche 2
-            console.log(add()); // Affiche 0
+
+            //Affiche 2
+            console.log(add(2));
+
+            // Affiche 0
+            console.log(add());
         </pre>
     </div>
 
@@ -76,15 +94,40 @@ var adder = (a, b) => a + b
         <br />
         <p><i>Scoping</i> au block</p>
         <pre class="brush: js">
-const a = 2;
+
 
 if (a == 2) {
+   var c = 4;
    let b = 3;
+
+   console.log(c); // Affichera 4
    console.log(b); // Affichera 3
 }
 
+console.log(c); //Affichera 4
 console.log(b); //Affichera undefined
-a = 5; //Lance une exception
+
+        </pre>
+    </div>
+
+    <div id="e24b" class="step slide section" data-x="4500" data-y="-1500" >
+        <h1>Constante</h1>
+        <br />
+
+        <pre class="brush: js">
+if (true) {
+  const a = 2;
+
+  try {
+    //Lance une exception
+    a = 5;
+  } catch (e) {
+  }
+}
+
+// const scope au bloc
+//on peut donc réaffecter a
+a = 6;
         </pre>
     </div>
 
@@ -94,11 +137,13 @@ a = 5; //Lance une exception
         <pre class="brush: js">
 function adder(...numbers) {
    let result = 0;
-   //numbers est un tableau,
-   //  contrairement à arguments
-   for(var i in numbers) {
-       result += numbers[i];
-   }
+
+   // numbers est un tableau,
+   // contrairement à arguments
+   numbers.forEach(function(number) {
+      result += number;
+   });
+
    return result;
 }
 console.log(adder(1,2,3,4)); // affiche 10
