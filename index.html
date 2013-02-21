@@ -157,7 +157,9 @@ console.log(adder(1,2,3,4)); // affiche 10
 function adder(a, b, c, d) {
    return a + b + c + d;
 }
-console.log(adder(...[1,2,3,4])); // affiche 10
+
+var anArray = [1,2,3,4];
+console.log(adder(...anArray)); // affiche 10
         </pre>
     </div>
 
@@ -190,7 +192,7 @@ console.log(map.get("janvier")); //renvoie 31
 
 map.delete("fevrier");
 
-for (let [key,val] of map) {}
+for (let [month, daysNumber] of map) {}
         </pre>
     </div>
 
@@ -205,7 +207,7 @@ console.log(set.add("deux"));
 console.log(set.has("deux")); //renvoie true
 
 for (let elem of set) {
-     console.log(element);
+     console.log(elem);
 }
 
         </pre>
@@ -220,8 +222,9 @@ for (let elem of set) {
                console.log(word);
             }
 
+            //Notation "en comprehension"
             //Renvoit un tableau des carrés de la liste
-            [ square(x) for (x of [1,2,3,4,5]) ]
+            [ x * x for (x of [1,2,3,4,5]) ]
 
         </pre>
     </div>
@@ -254,7 +257,9 @@ MyCollection.prototype = {
     <div id="e32" class="step slide section" data-x="16500" data-y="1500" >
         <h1>Itération - generateur - yield</h1>
         <br />
+        <div class="mini">
         <pre class="brush: js">
+            //Syntaxe avec *, indiquant une fonction génératrice
             function* fibonacci() {
                 let [prev, curr] = [0, 1];
                 for (;;) {
@@ -263,13 +268,35 @@ MyCollection.prototype = {
                 }
             }
 
+            //Un appel à la fonction
+            //renvoit la valeur présente dans yield,
+            //puis un appel à next() renvoit la valeur suivante de yield
             for (n of fibonacci()) {
-                if (n > 1000)
-                    break;
+                if (n > 1000) { break; }
                 print(n);
             }
         </pre>
+        </div>
+    </div>
 
+    <div id="e32b" class="step slide section" data-x="16500" data-y="-1500" >
+        <h1> Itération - yield - un autre exemple </h1>
+        <br />
+        <pre class="brush: js">
+            function* counter() {
+                yield 1;
+                yield 2;
+                return 3;
+            }
+
+            let seq = counter();
+            console.log(seq.next()); // affiche 1
+            console.log(seq.next()); // affiche 2
+            console.log(seq.next()); // affiche 3
+            console.log(seq.next()); // lance une exception
+
+
+        </pre>
     </div>
 
     <div id="e33" class="step slide section" data-x="18000" data-y="1500" >
@@ -300,7 +327,8 @@ import 'http://json.org/modules/json2.js' as JSON;
 
     <div id="e34" class="step slide section" data-x="19500" data-y="1500" >
         <h1>Création d'objet litéraux</h1>
-        <br />
+
+        <div class="mini">
         <pre class="brush: js">
 var obj = theProtoObj <| {
           konst:= f(), //writable, enumerable=false
@@ -309,12 +337,39 @@ var obj = theProtoObj <| {
           source() {throw Error("another message")}
           toString() {return "d "+super.toString()}
 ];
+//Est équivalent à
+var obj = Object.create(theProtoObj, {
+          konst: {value: f(), enumerable: false, writable: false},
+          handler: {value: defaultHandler, writable: true,
+                       enumerable: true, configurable: true},
+          name: {get: function () {
+                        return theProtoObj.name.call(this)},
+                 set: function(v) {throw Error("some message")},
+                   enumberable: false, configurable: true},
+         source: {value: function() {throw Error("a message")}},
+         toString: {value: function() {
+             return "d "+theProtoObj.toString.call(this)}
+         }
+});
+        </pre>
+        </div>
+    </div>
 
+    <div id="e34b" class="step slide section" data-x="19500" data-y="-1500" >
+        <h1>Création d'objet litéraux - Utilisation</h1>
+        <br />
+        <pre class="brush: js">
+
+ // Création d'un nouvel objet augmentant
+ // le prototype de Array avec 2 méthode
  var enhancedArrayProto = Array.prototype <| {
       do (func) {return this.foreach(func)},
       search (key) {return this.indexOf(key) >= 0}
   };
+
+  //Créé un nouveau tableau utilisant notre prototype custom
   var myArray = enhancedArrayProto <| [0,1,2,3,4,5];
+  myArray.search(3); // renvoit  true
         </pre>
     </div>
 
@@ -323,6 +378,7 @@ var obj = theProtoObj <| {
         <br />
         <div class="mini">
         <pre class="brush: js">
+//Créé un nom de propriété private
 const pHealth = Name.create();
 
 class Monster {
@@ -330,19 +386,18 @@ class Monster {
     this.name = name;
     this[pHealth] = health;
   }
-
-  attack(target) {
-    log('The monster attacks ' + target);
-  }
-
-  get isAlive() {
-    return this[pHealth] > 0;
-  }
-
-  set health(value) {
-    this[pHealth] = value
-  }
+  //méthode
+  attack(target) { console.log('The monster attacks ' + target) };
+  //getter
+  get isAlive() { return this[pHealth] > 0; }
+  //setter
+  set health(value) { this[pHealth] = value }
 }
+
+var m = new Monster("Cthulhu", 100000);
+m.health = -1;
+m.isAlive // renvoit false
+
 
         </pre>
         </div>
@@ -482,7 +537,7 @@ class Monster {
     <div id="e43" class="step slide section" data-x="3000" data-y="3000">
         <h1>Side Note - CoffeeScript</h1>
         <br />
-        <p>CoffeeScript supporte un certains nombres de ces fonctionnalités</p>
+        <p>CoffeeScript supporte un certains nombre de ces fonctionnalités</p>
         <ul class="bulletPoint">
             <li>Syntaxe des fonctions avec <code>-></code> </li>
             <li>Paramètres par défaut</li>
@@ -490,7 +545,7 @@ class Monster {
             <li>For of ; for comprehension</li>
             <li>Classes</li>
         </ul>
-        <p>En fait, Coffeescript a inspiré une partie des évolutions d'EcmaScript 6</p>
+        <p>En fait, CoffeeScript a inspiré une partie des évolutions d'EcmaScript 6</p>
     </div>
 
     <div id="e44" class="step slide section" data-x="4500" data-y="3000">
@@ -503,7 +558,7 @@ class Monster {
 
     </div>
 
-    <div id="overview" class="step" data-x="8000" data-y="4000" data-scale="13">
+    <div id="overview" class="step" data-x="12000" data-y="2000" data-scale="19">
     </div>
 </div>
 </body>
